@@ -4,7 +4,7 @@
 function show(id, msg){
     $('#home .step').hide();
     $('#step_'+id).show();
-    $('#step_'+id+' .message').text(msg?msg:'');
+    $('#step_'+id+' .message').text(msg?JSON.stringify(msg):'');
 }
   
 app.new = {
