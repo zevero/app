@@ -11,7 +11,7 @@ var app = {
     console.log('app_initialize');
     document.addEventListener('deviceready', function() {
       console.log('app_onDeviceReady');
-      Origami.fastclick(document.body);
+      //Origami.fastclick(document.body);
       app.new.init();
       app.list.init();
     }, false);
