@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <link href="vendor/jquery.mobile-1.4.5.min.css" rel="stylesheet" type="text/css"/>
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        
+        <script src="vendor/jquery-2.1.4.min.js" type="text/javascript"></script>
+        <script src="vendor/jquery.mobile-1.4.5.min.js" type="text/javascript"></script>
+        <title>Beweisfoto</title>
+    </head>
+    <body>
+      <div data-role="page" id="home">
+        <div data-role="header" data-position="fixed">
+          <h1>Home</h1>
+        </div>
+        <div data-role="main" class="ui-content">
+          <h2>Main</h2>
+          <a href="#next" data-transition="slide">Next</a>
+          <div id="step_start" class="step centered">
+             <button id="button_start">Foto machen</button>
+             <p class="message"></p>
+          </div>           
+          <div id="step_capture" class="step">
+             <input type="text" id="capture_text" value="" placeholder="Nachricht"/>
+             <img id="capture_img"/>
+             <button id="button_upload">abschicken</button>
+             <p class="message"></p>
+          </div>
+        </div>
+      </div>
+      
+      
+      <div data-role="page" id="next">
+        <div data-role="header" data-position="fixed">
+          <h1>Next</h1>
+          <a href="#home" class="ui-btn-left" data-transition="slide"  data-direction="reverse">Home</a>
+        </div>
+        <div data-role="main" class="ui-content">
+          <h2>Content of next</h2>
+           <button id="capture_image">Image</button>
+          <button id="capture_upload">Upload</button>
+          <button id="button_geo">Geo</button>
+        </div>
+        <div id="capture">
+        </div>
+
+        
+      </div>
+
+       <!--<script type="text/javascript" src="cordova.js"></script>-->
+       <script src="vendor/fastclick.min.js" type="text/javascript"></script>
+       <script src="js/app.js" type="text/javascript"></script>
+       <script src="js/app_new.js" type="text/javascript"></script>
+       <script src="js/app_list.js" type="text/javascript"></script>
+       <script src="js/lib/foto.js" type="text/javascript"></script>
+       <script src="js/lib/geo.js" type="text/javascript"></script>
+       <script src="js/lib/upload.js" type="text/javascript"></script>
+       <script type="text/javascript">
+         //if (!navigator.userAgent.toLowerCase().match('chrome')) {
+           //document.write("<script src='cordova.js'><\/script>");
+         //}
+         
+         console.log('init');
+         app.init();
+        </script>
+    </body>
+</html>
