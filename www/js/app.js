@@ -13,7 +13,8 @@ var app = {
       console.log('app_onDeviceReady');
       //Origami.fastclick(document.body);
       app.new.init();
-      app.list.init();
+      app.settings.init();
+      //app.list.init();
     }, false);
   }
 };
