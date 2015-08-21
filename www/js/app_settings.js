@@ -5,16 +5,18 @@
     display: function () { //display
       var ls = window.localStorage;
       if (ls.getItem("device_id")) { //display data
-        $('#name').val(ls.getItem('name')).prop('disabled', true);
-        $('#domain').val(ls.getItem('domain')).prop('disabled', true);
+        $('#name').val(ls.getItem('name'));//.textinput('disabled');
+        $('#domain').val(ls.getItem('domain'));//.textinput('disabled');
         $('#device_id').text(ls.getItem('device_id'));
         $('#settings_btn').text('Clear');
+        $('#button_start').prop('disabled',false);
       } else { //or clear
-        $('#name').prop('disabled', false).val('');
-        $('#domain').prop('disabled', false).val('');
+        $('#name').val('');
+        $('#domain').val('');
         $('#device_id').text('');
         $('#settings_btn').text('Save');
-        $.mobile.navigate('#settings');
+        $('#button_start').prop('disabled',true);
+        $.mobile.navigate('#settings'); //go to settings page if we dont have device_id
       }
     },
     init: function () {
@@ -37,11 +39,11 @@
 
 
         if (form.name.length < 3) {
-          console.log('TODO name is too short');//TODO show unvalid
+          alert('TODO name is too short');//TODO show unvalid
           valid = false;
         }
         if (form.domain.length < 3) {
-          console.log('TODO domain is too short');//TODO show unvalid
+          alert('TODO domain is too short');//TODO show unvalid
           valid = false;
         }
         if (valid) {

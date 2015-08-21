@@ -2,14 +2,17 @@
 (function(){
 var loc = null;
 var watch = null;
+var probe_cb = null;
 
 
 app.lib.geo = {
   get: function(stop){ //stop true will stop looking furter
-    if (stop && watch) navigator.geolocation.clearWatch(watch);
+    if (stop && watch) watch = navigator.geolocation.clearWatch(watch);
     return loc;
   },
   probe:function(cb) { //probe for gps signal and save the best result so far
+    probe_cb = cb; //probe_cb immer aktuell
+    if (watch) return;
     loc=null;
     var n = 0;
     watch = navigator.geolocation.watchPosition(function(location){
@@ -27,16 +30,13 @@ app.lib.geo = {
       var a = loc.acc;
       res.msg = n+ ' gps: ' + a + ' m';
       if(a<100) res.ok = true;
-      if(a<10){
-        navigator.geolocation.clearWatch(watch);
-        res.msg += ' OK';
-      }
-      if (n>20) {
-        navigator.geolocation.clearWatch(watch);
-        res.msg += ' ...';
-      }
+      if(a<10)  res.msg += ' OK';
+      if (n>20) res.msg += ' ...';
+      
       console.log('geo', res.msg);
-      cb(res);
+      probe_cb(res);
+      if(a<10 || n>20) watch = navigator.geolocation.clearWatch(watch);
+      
     },
     function(error){
       console.log(error);
