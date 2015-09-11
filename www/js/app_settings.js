@@ -4,10 +4,10 @@
   app.settings = {
     display: function () { //display
       var ls = window.localStorage;
-      if (ls.getItem("device_id")) { //display data
-        $('#name').val(ls.getItem('name'));//.textinput('disabled');
-        $('#domain').val(ls.getItem('domain'));//.textinput('disabled');
-        $('#device_id').text(ls.getItem('device_id'));
+      if (ls.getItem('#device_id')) { //display data
+        $('#name').val(ls.get('#name'));//.textinput('disabled');
+        $('#domain').val(ls.get('#domain'));//.textinput('disabled');
+        $('#device_id').text(ls.get('#device_id'));
         $('#settings_btn').text('Clear');
         $('#button_start').prop('disabled',false);
       } else { //or clear
@@ -24,10 +24,13 @@
 
       var ls = window.localStorage;
       app.settings.display();
+      $('#domain').keyup(function(){
+        this.value = this.value.toLowerCase();
+      });//only lowercase allowed
       $('#settings_btn').click(function () {
         console.log('settings_btn');
-        if (ls.getItem('device_id')) {
-          ls.removeItem('device_id');
+        if (ls.get('#device_id')) {
+          ls.remove('#device_id');
           app.settings.display();
           return;
         }
@@ -50,10 +53,11 @@
           $.post(app.config.server + '/phone/settings', form, function (json) {
             console.log('sent settings', form, 'got', json);
             if (!json.err){
-              ls.setItem('name', json.device.name);
-              ls.setItem('domain', json.device.domain);
-              ls.setItem('device_id', json.device._id);
+              ls.set('#name', json.device.name);
+              ls.set('#domain', json.device.domain);
+              ls.set('#device_id', json.device._id);
               app.settings.display();
+              setTimeout(function(){$.mobile.navigate('#home');},700);
             }
             else console.log('TODO Sent settings JSON Error', json.err);//TODO show ok
        

@@ -1,0 +1,14 @@
+{
+  "name": "BeweisfotoAppCordova",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "gulp": "^3.9.0",
+    "gulp-csslint": "^0.2.0",
+    "gulp-jshint": "^1.11.2",
+    "require-dir": "^0.3.0"
+  },
+  "devDependencies": {},
+  "readme": "Beweisfoto App\n",
+  "description": "Beweisfoto App"
+}

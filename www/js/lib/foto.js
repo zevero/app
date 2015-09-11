@@ -1,9 +1,10 @@
+/*global navigator*/
 'use strict';
 app.lib.foto = {
   getPicture: function(cb){
     function success(uri) {
       cb({uri: uri});
-    };
+    }
     function fail(message) {
       console.log('foto.getPicture failed because of', message);
       cb({err: message});
@@ -23,3 +24,4 @@ app.lib.foto = {
     });
   }
 };
+

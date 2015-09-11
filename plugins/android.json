@@ -19,6 +19,10 @@
                         {
                             "xml": "<feature name=\"FileTransfer\"><param name=\"android-package\" value=\"org.apache.cordova.filetransfer.FileTransfer\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"NetworkStatus\"><param name=\"android-package\" value=\"org.apache.cordova.networkinformation.NetworkManager\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -29,6 +33,10 @@
                         {
                             "xml": "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />",
                             "count": 3
+                        },
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\" />",
+                            "count": 1
                         }
                     ]
                 }
@@ -40,6 +48,9 @@
             "PACKAGE_NAME": "at.ae111.app"
         },
         "org.apache.cordova.file-transfer": {
+            "PACKAGE_NAME": "at.ae111.app"
+        },
+        "org.apache.cordova.network-information": {
             "PACKAGE_NAME": "at.ae111.app"
         }
     },

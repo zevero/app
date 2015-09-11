@@ -12,9 +12,19 @@ var app = {
     document.addEventListener('deviceready', function() {
       console.log('app_onDeviceReady');
       //Origami.fastclick(document.body);
-      app.new.init();
+      app.lib.store.init();
+      app.list.init();
+      app.foto.init();
       app.settings.init();
+      //document.addEventListener('resume', app.lib.update, false);
+      document.addEventListener('online', app.lib.update, false);
+      app.lib.update();
       //app.list.init();
     }, false);
+  },
+  show: function(step){
+    var $page = $.mobile.pageContainer.pagecontainer('getActivePage');
+    var $steps = $page.find('.step').hide();
+    $steps.filter('#step_'+step).show();
   }
 };
