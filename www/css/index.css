@@ -32,4 +32,6 @@ body {
 #list_table tr.green  {background-color: green}
 #list_table tr.yellow {background-color: yellow}
 #list_table tr.red    {background-color: red}
-#list_table tr img    {height: 80px}
+
+#list_table tr td img {height: 80px}
+#list_table tr td:last-child img {height: 40px}

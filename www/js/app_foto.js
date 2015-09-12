@@ -11,21 +11,15 @@ function show_geo_info(pos){
 }
 
 function foto_take(){
-    clear();
-    navigator.geolocation.getAccurateCurrentPosition(
-      function(e){console.log('geo_start_succes',e);},
-      function(e){console.log('geo_start_error',e);},
-      show_geo_info,
-      {maxWait:30000}
-    );
-
+    clear();    
+    app.foto.initGeo(30000);
     app.lib.foto.getPicture(function(res){
       if (res.err){
         console.error('foto img take error', res.err);
         return;
       }
-
-      var id = app.lib.store.add({_id: Date.now(),privat:{img: res.uri, unsent:true}});
+      var _id = window.localStorage.get('#device_id') + '_' + Date.now();
+      var id = app.lib.store.add({_id: _id, privat:{img: res.uri, unsent:true}}); //domain#time
       show(id);
 
       navigator.geolocation.getAccurateCurrentPosition(
@@ -33,13 +27,12 @@ function foto_take(){
           console.log('geo_foto_success',pos);
           var c = pos && pos.coords;
           if (c) {
-            
             app.lib.store.update({lat: c.latitude, lng: c.longitude, acc:Math.round(c.accuracy)}, id);
           }
         },
         function(e){console.log('geo_foto_error',e);},
         show_geo_info,
-        {maxWait:30000, desiredAccuracyCountMin:5, enableLowAccuracyOnTimeout:true}
+        {maxWait:30000, desiredAccuracyCountMin:5, enableLowAccuracy:true}
       );
       
 
@@ -62,15 +55,20 @@ function show(n_or_id){
 }
 
 app.foto = {
+  initGeo: function(ms_wait){
+    navigator.geolocation.getAccurateCurrentPosition(
+      function(e){console.log('app.foto.initGeo_ms',ms_wait,'ok',e);},
+      function(e){console.log('app.foto.initGeo_ms',ms_wait,'nok',e);},
+      show_geo_info,
+      {maxWait: ms_wait}
+    );
+  },
   init: function() {
     console.log('app_foto_init');
     app.show('list');
-    navigator.geolocation.getAccurateCurrentPosition(
-      function(e){console.log('geo_init_succes',e);},
-      function(e){console.log('geo_init_error',e);},
-      show_geo_info,
-      {maxWait:100000}
-    );
+    app.foto.initGeo(100000);
+    app.map.init();
+
     $('#button_foto').click(foto_take);
     $('#foto_back').click(function(){app.show('list');});
     $('#foto_edit').click(function(){

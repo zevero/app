@@ -2,12 +2,14 @@
 (function(){
 var ls;
 
-
-
 var o = app.lib.store = {
   init: function() {
     ls=window.localStorage;
     if (!ls.has('#outbox')) ls.set('#outbox',{});
+  },
+  X: {
+    t: function(_id){var s = _id.split('_');return parseInt(s[1],10);},
+    d: function(_id){var s = _id.split('_');return s[0];}
   },
   toId: function (n_or_id){
     if (typeof n_or_id === 'string' && n_or_id.indexOf('#')!==-1) return n_or_id; //is id
@@ -85,11 +87,11 @@ var o = app.lib.store = {
   },
   getAll: function() {
     var domain = ls.get('#domain');
-    var n,n_length=parseInt(ls.get(domain),10);
+    var n=parseInt(ls.get(domain),10);
     var id,list=[];
-    for (n=1;n<=n_length;n++){
+    for (n;n>0;n--){
       id = domain+'#'+n;
-      if (ls.has(id)) list.push({params: ls.get(id), n:n, domain:domain, id:id});
+      if (ls.has(id)) list.unshift({params: ls.get(id), n:n, domain:domain, id:id});
       else break;
     }
     return list;

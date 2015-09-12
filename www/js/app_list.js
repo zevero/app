@@ -1,14 +1,16 @@
 'use strict';
 (function(){
 
+
 function $tr(next){
   var params = next.params;
+  var _idSplit =  params._id.split('_');
+  var t = parseInt(_idSplit[1],10);
   return $('<tr data-n="'+next.n+'">')
      .append($('<td>').html('<img src="'+params.privat.img+'">'))
-     .append($('<td>').text(next.n))
-     .append($('<td>').text((new Date(params._id)).toLocaleString()))
-     .append($('<td>').text(Math.round(params.acc)))
-     .append($('<td>').text(params.text||''))
+     .append($('<td>').html(params.text||'<img src="img/nogps.png">'))
+     .append($('<td>').text((new Date(t)).toLocaleString()))
+     .append($('<td>').text(params.acc?Math.round(params.acc):''))
      .append($('<td><img>'));
 }
 function eventSendState(e, state){//e.currentTarget === this but JSHint complains
