@@ -19,4 +19,4 @@ gulp.task('watch', ['dev'], function() {
   gulp.watch(config.jshint, ['jshint']);
   gulp.watch(config.vendor, ['useref']);
 });
-gulp.task('dev', ['jshint','csslint']);
+//gulp.task('compile', ['jshint','csslint','useref']);

@@ -1,8 +1,9 @@
 module.exports = {
-  jshint: ['./www/js/**/*.js', '!./www/js/bower_components/**', '!./www/js/vendor/**'],
-  csslint: ['./www/css/**/*.css'],
-  vendor: ['./www/js/bower_components/**/*.css',
-           './www/js/bower_components/**/*.js',
-           './www/js/vendor/**/*.css',
-           './www/js/vendor/**/*.js']
+  jshint: ['./dev/js/**/*.js', '!./dev/js/bower_components/**', '!./dev/js/vendor/**'],
+  csslint: ['./dev/css/**/*.css'],
+  vendor: ['./dev/js/bower_components/**/*.css',
+           './dev/js/bower_components/**/*.js',
+           './dev/js/vendor/**/*.css',
+           './dev/js/vendor/**/*.js'],
+  dest: 'www'
 };

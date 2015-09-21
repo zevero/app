@@ -11,10 +11,12 @@
     "gulp-minify": "0.0.5",
     "gulp-minify-css": "^1.2.1",
     "gulp-minify-html": "^1.0.4",
+    "gulp-rename": "^1.2.2",
     "gulp-replace-task": "^0.11.0",
     "gulp-uglify": "^1.4.1",
     "gulp-useref": "^1.3.0",
-    "require-dir": "^0.3.0"
+    "require-dir": "^0.3.0",
+    "rimraf": "^2.4.3"
   },
   "devDependencies": {},
   "readme": "Beweisfoto App\n",
