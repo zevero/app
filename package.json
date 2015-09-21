@@ -5,6 +5,7 @@
   "dependencies": {
     "gulp": "^3.9.0",
     "gulp-csslint": "^0.2.0",
+    "gulp-debug": "^2.1.0",
     "gulp-if": "^1.2.5",
     "gulp-jshint": "^1.11.2",
     "gulp-minify": "0.0.5",
