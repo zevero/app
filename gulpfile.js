@@ -17,5 +17,6 @@ gulp.task('default', function(){
 gulp.task('watch', ['dev'], function() {
   gulp.watch(config.csslint, ['csslint']);
   gulp.watch(config.jshint, ['jshint']);
+  gulp.watch(config.vendor, ['useref']);
 });
 gulp.task('dev', ['jshint','csslint']);
