@@ -1,13 +1,24 @@
 'use strict';
 (function(){
-var ls;
-
+var ls = window.localStorage;
+/*  #domain ........ currently acitive domain
+ *  #domains ....... registered domains: {domain1: name1,...}
+ *  #outbox ........ stuff that needs to be sent
+ *  #time_diff ..... time_diff between server and client time
+ *  domain#info .... info used by domain {fields:[],img_size:400,img_quality:50}
+ *  domain# ........ number of fotos
+ *  domain#afa_123 . foto with device_id and timestamp
+ *  
+ *  foto ids:
+ *  n .... foto number in a domain
+ *  id ... domain#n                client id
+ *  _id .. device_id _ timestamp   server id
+ */
 var o = app.lib.store = {
   init: function() {
-    ls=window.localStorage;
     if (!ls.has('#outbox')) ls.set('#outbox',{});
   },
-  X: {
+  X: { //decode _id
     t: function(_id){var s = _id.split('_');return parseInt(s[1],10);},
     d: function(_id){var s = _id.split('_');return s[0];}
   },
@@ -95,6 +106,54 @@ var o = app.lib.store = {
       else break;
     }
     return list;
+  },
+  register: {
+    getData: function(){
+      return {
+        device_id: ls.get('#device_id'),
+        domains: ls.get('#domains')
+      };
+    },
+    updateAll: function(res){
+      if (res.err) console.warn('store_domainsUpdate error',res);
+      ls.set('#device_id', res.device_id);               //set device_id
+      ls.set('#time_diff', Date.now()-res.time);         //set time_diff
+      Object.keys(res.domains).forEach(function(dom){    //add field info
+        ls.set(dom+'#info',res.domains[dom]);
+      });
+      Object.keys(res.domains_nok).forEach(o.domain.delete); //remove domains_nok
+    }
+  },
+  domain: {
+    addFromForm: function(form){ //just set #domains
+      var domains = ls.get('#domains')||{};
+      domains[form.domain]=form.name;
+      ls.set('#domains',domains);
+    },
+    delete: function(domain){ //delete everything associated with the domain
+      console.log('store domain delete',domain);
+      var id,n=parseInt(ls.get(domain),10)||0;
+      for(n;n>0;n--){
+        id = domain+'#'+n;
+        if (ls.has(id)) ls.remove(id);
+        else break;
+      }
+      ls.remove(domain+'#info');
+      ls.remove(domain+'#');
+      var domains = ls.get('#domains');
+      delete domains[domain];
+      ls.set('#domains',domains);
+      if (domain === ls.get('#domain')){
+        ls.remove('#domain');
+      }
+      app.settings.display();
+    },
+    getAll: function(){
+      return ls.get('#domains') || {};
+    },
+    getInfo: function(){var d = ls.get('#domain'); return d && ls.get(d+'#info');},
+    get: function(){return ls.get('#domain');},
+    set: function(d){return ls.set('#domain',d);}
   }
 };
 })();

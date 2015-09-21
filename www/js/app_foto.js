@@ -34,14 +34,34 @@ function foto_take(){
         show_geo_info,
         {maxWait:30000, desiredAccuracyCountMin:5, enableLowAccuracy:true}
       );
-      
-
     });
+}
+
+function foto_edit(){                 
+  var info = app.lib.store.domain.getInfo();
+  var values = {};
+  var $fields = $('#foto_fields');
+  var complete = true;
+  info.fields && Object.keys(info.fields).forEach(function(key){
+    var field = info.fields[key];
+    var $el = $fields.find('#field_key_'+key);
+    var value = $el.val().trim();
+    if (field.attr.required && value==='') {
+      $el.shake();
+      complete = false;
+    }
+    values[key]=value;
+  });
+  
+  
+  var foto_id = $('#foto_img').data('id'); //id stored on foto
+  app.lib.store.update({values: values, complete:complete}, foto_id);
+  if (complete) return $.mobile.navigate('#home');
 }
 
 function clear(){
   $('#foto_img').attr('src', '');
-  $('#foto_text').val('');
+  $('#foto_fields').empty();
   $('#foto_edit').prop('disabled', true);
 }
 
@@ -50,35 +70,64 @@ function show(n_or_id){
   var id = app.lib.store.toId(n_or_id);
   var params = app.lib.store.get(id);
   $('#foto_img').attr('src', params.privat.img || '').data('id', id); //store id on foto
-  $('#foto_text').val(params.text || '');
-  app.show('foto');
+  var info = app.lib.store.domain.getInfo();
+  var $fields = $('#foto_fields').empty();
+  info.fields && Object.keys(info.fields).forEach(function(key){
+    var value = (params.values && params.values[key]) || null;
+    var field = info.fields[key];
+    var field_key = 'field_key_'+key;
+    var $el = $('<'+field.el+'>', field.attr).attr('id', field_key);
+    var $label = $('<label>'+field.label+'</label>',{for: field_key});
+    $el.attr({autocomplete:'off', autocorrect:'off', autocapitalize:'off',spellcheck:'false'}); 
+    if (field.el === 'select' && typeof field.options ==='object') { //el is select
+      Object.keys(field.options).forEach(function(option_key){
+        $el.append('<option value="'+option_key+'"'+((option_key===value)?' selected':'')+'>' + field.options[option_key]+'</option>');
+      });
+    } else { //el is normal
+      $el.attr('value', value);
+    }
+    
+    $fields.append($label);
+    $fields.append($el);
+  });
+  $.mobile.navigate('#foto', { transition: 'slide'});
+}
+
+function getFieldsInfo(params){
+  var info = app.lib.store.domain.getInfo();
+  var html ='';
+  info.fields && Object.keys(info.fields).forEach(function(key){
+    var field = info.fields[key];
+    var value = (params.values && params.values[key]) || null;
+    if (field.attr.type==='select' && field.options){
+      value = field.option[field] || null;
+    }
+    if (!field.peek && !value) return;
+    html += value + '<br>';
+  });
+  return html;
 }
 
 app.foto = {
   initGeo: function(ms_wait){
+    show_geo_info();
     navigator.geolocation.getAccurateCurrentPosition(
       function(e){console.log('app.foto.initGeo_ms',ms_wait,'ok',e);},
       function(e){console.log('app.foto.initGeo_ms',ms_wait,'nok',e);},
       show_geo_info,
-      {maxWait: ms_wait}
+      {maxWait: ms_wait, enableLowAccuracy:true}
     );
   },
   init: function() {
     console.log('app_foto_init');
-    app.show('list');
     app.foto.initGeo(100000);
-    app.map.init();
-
+    //app.map.init();
     $('#button_foto').click(foto_take);
-    $('#foto_back').click(function(){app.show('list');});
-    $('#foto_edit').click(function(){
-      var id = $('#foto_img').data('id');                            //id stored on foto
-      app.lib.store.update({text: $('#foto_text').val().trim()}, id);
-      app.show('list');
-    });
-    $('#step_foto input').keyup(function(){$('#foto_edit').prop('disabled', false);});
+    $('#foto_edit').click(foto_edit);
+    $('#foto_fields').on('change keyup',function(){$('#foto_edit').prop('disabled', false);});
   },
   clear: clear,
-  show: show
+  show: show,
+  getFieldsInfo: getFieldsInfo
 };
 })();

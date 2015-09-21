@@ -13,34 +13,39 @@
     <script src="js/bower_components/simple-webstorage/extendStorage.js" type="text/javascript"></script>
     <script src="js/bower_components/jquery/dist/jquery.min.js" type="text/javascript"></script>
     <script src="js/vendor/jquery.mobile-1.4.5.min.js" type="text/javascript"></script>
+    <script src="js/vendor/jquery.shake.js" type="text/javascript"></script>
      <!--<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAYHNuX165LNtineirwnAkX9Lu0Sqy84KU&sensor=false"></script>-->
     <script src="js/vendor/fastclick.min.js" type="text/javascript"></script>
     <title>Beweisfoto</title>
   </head>
   <body>
-
+    
     <div data-role="page" id="home">
       <div data-role="header" data-position="fixed">
-        <h1><span id="status_gps">NO GPS</span></h1>
-        <a href="#settings" class="ui-btn-left" data-transition="slide" data-direction="reverse">Settings</a>
-        <a id="button_foto" class="ui-btn-right" data-transition="slide">Foto</a>
+        <h1><span class="status_gps">NO GPS</span></h1>
+        <a href="#settings" class="ui-btn-left" data-transition="slide" data-icon="bars" data-direction="reverse">Settings</a>
+        <a id="button_foto" class="ui-btn-right" data-transition="slide" data-icon="camera">Foto</a>
       </div>
       <div data-role="main" class="ui-content">
-        <div id="map">Map</div>
-        
-        <div id="step_list" class="step centered">
+        <div id="list_map">List Map</div>
           <table id="list_table">
             <tbody></tbody>
           </table>
-        </div>
-        
-        <div id="step_foto" class="step">
-          <img id="foto_img"/>
-          <input type="text" id="foto_text" value="" placeholder="Nachricht"/>
-          <button id="foto_edit">speichern</button>
-          <a id="foto_back" data-role="button">Zurück</a>
-        </div>
-        
+          <p id="list_table_exist_">Klicken Sie auf "Foto" um ein Foto zu schießen. Beachten Sie auch die Genauigkeit ihrer Position. Beste Ergebnisse werden draußen unter freiem Himmel erzielt.</p>
+      </div>
+    </div>
+    
+    <div data-role="page" id="foto">
+      <div data-role="header" data-position="fixed">
+        <h1><span class="status_gps">NO GPS</span></h1>
+        <a href="#home" class="ui-btn-left" data-transition="slide" data-icon="home" data-direction="reverse">Zurück</a>
+        <a id="button_foto" class="ui-btn-right" data-transition="slide" data-icon="camera">Foto</a>
+      </div>
+      <div data-role="main" class="ui-content">
+        <div id="foto_map">Map</div>
+        <img id="foto_img"/>
+        <div id="foto_fields"></div>
+        <button id="foto_edit">speichern</button>
       </div>
     </div>
       
@@ -48,26 +53,44 @@
     <div data-role="page" id="settings">
       <div data-role="header" data-position="fixed">
         <h1>Settings</h1>
-        <a href="#home" class="ui-btn-right" data-transition="slide" data-icon="home">Zurück</a>
+        <a id="settings_back" href="#home" class="ui-btn-right" data-transition="slide" data-icon="home">Zurück</a>
       </div>
       <div data-role="main" class="ui-content">
-        <label for="name">Name:</label>
-        <input type="text" name="name" id="name" placeholder="Wie kennt man Sie?">
-        <label for="domain">Domain:</label>
-        <input type="text" id="domain" placeholder="domain">
-        DeviceID: <div id="device_id"></div>
-        <button id="settings_btn">Nix</button>
-        <a href="#home" data-role="button" data-transition="slide" data-icon="home">Zurück</a>
+        <a href="#settings_domain_add_popup" data-rel="popup" data-position-to="window" data-transition="pop" class="ui-btn ui-corner-all ui-icon-plus ui-btn-icon-left">Neue Domain</a>
+        <div data-role="popup" id="settings_domain_add_popup">
+            <div role="main" class="ui-content">
+              <label for="domain">Domain:</label>
+              <input autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="text" id="domain" placeholder="Domain">
+              <p id="settings_domain_add_err" class="red"></p>
+              <label for="name">Name:</label>
+              <input autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="text" name="name" id="name" placeholder="Wie kennt man Sie?">
+          
+              <a class="ui-btn ui-corner-all" id="settings_domain_add">Hinzufügen</a>
+              <a class="ui-btn ui-corner-all" data-rel="back">Abbrechen</a>
+            </div>
+        </div>
+        <div id="settings_domain_exist" class="ui-field-contain">
+          <label for="settings_domain_select">Ausgewählte Domain:</label>
+          <select id="settings_domain_select" class="ui-btn-icon-left">
+          </select>
+          <br>
+          <a id="settings_domain_remove" data-role="button" data-icon="minus">Nix</a>
+        </div>
+        <div id="settings_domain_exist_" class="ui-field-contain">
+          <p>Sie können diese App erst verwenden, wenn Sie sich bei einer bestehenden Domain mit einem Pseudonym angemeldet haben.</p>
+        </div>
+        
       </div>
     </div>
 
     <script type="text/javascript" src="cordova.js"></script>
     <script src="js/app.js" type="text/javascript"></script>
-    <script src="js/app_map.js" type="text/javascript"></script>
+    <!--<script src="js/app_map.js" type="text/javascript"></script>-->
     <script src="js/app_foto.js" type="text/javascript"></script>
     <script src="js/app_list.js" type="text/javascript"></script>
     <script src="js/app_settings.js" type="text/javascript"></script>
     <script src="js/lib/store.js" type="text/javascript"></script>
+    <script src="js/lib/register.js" type="text/javascript"></script>
     <script src="js/lib/foto.js" type="text/javascript"></script>
     <script src="js/lib/upload.js" type="text/javascript"></script>
     <script src="js/lib/update.js" type="text/javascript"></script>

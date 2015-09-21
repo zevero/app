@@ -17,17 +17,19 @@ var app = {
       app.foto.init();
       app.settings.init();
       document.addEventListener('resume', app.foto.initGeo, false);
+      document.addEventListener('resume', app.lib.register.go, false);
       document.addEventListener('online', app.lib.update, false);
-      app.lib.update();
+      app.lib.register.go(app.lib.update);
       //app.list.init();
-      setInterval(app.heartbeat,20000);
+      //setInterval(app.heartbeat,20000);
     }, false);
-  },
+  }/*,
   show: function(step){
     var $page = $.mobile.pageContainer.pagecontainer('getActivePage');
     var $steps = $page.find('.step').hide();
     $steps.filter('#step_'+step).show();
-  },
+  }*/
+  /*,
   heartbeat: function(){
     $.post(app.config.server+'/phone/time')          //get time
     .done(function(res) {
@@ -36,5 +38,5 @@ var app = {
     .fail(function(res) {
       console.log('time_fail', res);
     });
-  }
+  }*/
 };

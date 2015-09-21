@@ -6,11 +6,11 @@ function $tr(next){
   var params = next.params;
   var _idSplit =  params._id.split('_');
   var t = parseInt(_idSplit[1],10);
+  var fieldsInfo = app.foto.getFieldsInfo(params);
   return $('<tr data-n="'+next.n+'">')
      .append($('<td>').html('<img src="'+params.privat.img+'">'))
-     .append($('<td>').html(params.text||'<img src="img/nogps.png">'))
-     .append($('<td>').text((new Date(t)).toLocaleString()))
-     .append($('<td>').text(params.acc?Math.round(params.acc):''))
+     .append($('<td>').html((new Date(t)).toLocaleString()+'<br>'+fieldsInfo))
+     .append($('<td>').html(params.acc?Math.round(params.acc):'<img src="img/nogps.png">'))
      .append($('<td><img>'));
 }
 function eventSendState(e, state){//e.currentTarget === this but JSHint complains
@@ -22,7 +22,7 @@ function sendState(state,n) {
   $('#list_table tbody tr[data-n="'+n+'"]').trigger('sendState',state);
 }
 
-function eventShow(e){
+function eventShowFoto(e){
   var n = $(e.currentTarget).data('n');
   app.foto.show(n);
 }
@@ -30,9 +30,11 @@ function eventShow(e){
 app.list = {
   init: function() {
     console.log('app_list_init');
-    $('#list_table tbody').on('click','tr', eventShow);
+    $('#list_table tbody').on('click','tr', eventShowFoto);
     $('#list_table tbody').on('sendState','tr', eventSendState);
-    app.lib.store.getAll().forEach(app.list.add);
+    var fotos = app.lib.store.getAll();
+    $('#list_table_exist_').toggle(!fotos.length);
+    fotos.forEach(app.list.add);
     app.lib.store.outbox.all().forEach(function(next){
       sendState(next.params.privat.unsent?'nok':'update',next.n);
     });

@@ -21,7 +21,13 @@ function update(){
   });
 
   delete next.params.privat;
-  $.post(app.config.server+'/phone/'+next.domain+'/update', next.params)          //updates
+  //$.post(app.config.server+'/phone/'+next.domain+'/update', JSON.stringify(next.params))          //updates
+  $.ajax({
+    url: app.config.server+'/phone/'+next.domain+'/update', 
+    type: 'POST', 
+    contentType: 'application/json', 
+    data: JSON.stringify(next.params)
+  })
   .done(function(res) {
     console.log('update_success', res);
     app.lib.store.updated(next.n);

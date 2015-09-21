@@ -8,15 +8,16 @@ app.lib.foto = {
     function fail(message) {
       console.log('foto.getPicture failed because of', message);
       cb({err: message});
-    } 
+    }
+    var info = app.lib.store.domain.getInfo();
     navigator.camera.getPicture(success, fail, {
-      quality: 50,
+      quality: info.img_quality,
       destinationType: navigator.camera.DestinationType.FILE_URI,
       sourceType : navigator.camera.PictureSourceType.CAMERA,
       allowEdit : false,
       encodingType: navigator.camera.EncodingType.JPEG,
-      targetWidth: 400,
-      targetHeight: 400,
+      targetWidth: info.img_size,
+      targetHeight: info.img_size,
       correctOrientation: true,
       //popoverOptions: CameraPopoverOptions,
       saveToPhotoAlbum: false,
