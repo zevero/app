@@ -110,6 +110,7 @@ function getFieldsInfo(params){
 
 app.foto = {
   initGeo: function(ms_wait){
+    if (!ms_wait) ms_wait = 100000;
     show_geo_info();
     navigator.geolocation.getAccurateCurrentPosition(
       function(e){console.log('app.foto.initGeo_ms',ms_wait,'ok',e);},
@@ -120,7 +121,7 @@ app.foto = {
   },
   init: function() {
     console.log('app_foto_init');
-    app.foto.initGeo(100000);
+    setTimeout(app.foto.initGeo,500); //navigator.geolocation is OVERWRITTEN on startup. So we load and use it with timeout
     //app.map.init();
     $('#button_foto').click(foto_take);
     $('#foto_edit').click(foto_edit);
