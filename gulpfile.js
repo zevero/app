@@ -11,12 +11,12 @@ gulp.task('default', function(){
   if (!config.production){
     console.log('gulp watch   - while developing. Starts gulp dev repeatedly!');
   }
- });
+});
 
 
 gulp.task('watch', ['dev'], function() {
   gulp.watch(config.csslint, ['csslint']);
-  //gulp.watch(config.jshint, ['jshint']);
-  //gulp.watch(config.vendor, ['useref']);
+  gulp.watch(config.jshint, ['jshint']);
+  gulp.watch(config.vendor, ['useref']);
 });
 gulp.task('dev', ['jshint','csslint','useref']);
