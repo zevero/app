@@ -7,7 +7,7 @@
     <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=medium-dpi" />
     
-    <script src="http://jsconsole.com/remote.js?26FEF029-AD12-4CCB-9E00-BD4A0B7FF302"></script>
+    <!--<script src="http://jsconsole.com/remote.js?26FEF029-AD12-4CCB-9E00-BD4A0B7FF302"></script> -->
     
     <!-- build:css min_vendor.css -->
     <link href="js/vendor/jquery.mobile-1.4.5.min.css" rel="stylesheet" type="text/css"/>
@@ -27,12 +27,11 @@
     <title>Beweisfoto</title>
   </head>
   <body>
-    
     <div data-role="page" id="home">
       <div data-role="header" data-position="fixed">
         <h1><span class="status_gps">NO GPS</span></h1>
         <a href="#settings" class="ui-btn-left" data-transition="slide" data-icon="bars" data-direction="reverse">Settings</a>
-        <a id="button_foto" class="ui-btn-right" data-transition="slide" data-icon="camera">Foto</a>
+        <a class="button_foto ui-btn-right" data-transition="slide" data-icon="camera">Foto</a>
       </div>
       <div data-role="main" class="ui-content">
         <div id="list_map">List Map</div>
@@ -47,13 +46,20 @@
       <div data-role="header" data-position="fixed">
         <h1><span class="status_gps">NO GPS</span></h1>
         <a href="#home" class="ui-btn-left" data-transition="slide" data-icon="home" data-direction="reverse">Zurück</a>
-        <a id="button_foto" class="ui-btn-right" data-transition="slide" data-icon="camera">Foto</a>
+        <a class="button_foto ui-btn-right" data-transition="slide" data-icon="camera">Foto</a>
       </div>
       <div data-role="main" class="ui-content">
         <div id="foto_map">Map</div>
+        <form>
+          <div id="foto_fields"></div>
+        </form>
+
+        <div class="ui-grid-a ui-grid-30-70">
+          <div class="ui-block-a"><button id="foto_del" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-top">Löschen</button></div>
+          <div class="ui-block-b"><button id="foto_edit" class="ui-btn ui-corner-all ui-icon-edit ui-btn-icon-top">Zurück</button></div>
+        </div>
+
         <img id="foto_img"/>
-        <div id="foto_fields"></div>
-        <button id="foto_edit">speichern</button>
       </div>
     </div>
       
@@ -77,14 +83,15 @@
               <a class="ui-btn ui-corner-all" data-rel="back">Abbrechen</a>
             </div>
         </div>
-        <div id="settings_domain_exist" class="ui-field-contain">
+        <div class="ui-field-contain settings_domain_exist">
           <label for="settings_domain_select">Ausgewählte Domain:</label>
           <select id="settings_domain_select" class="ui-btn-icon-left">
           </select>
-          <br>
-          <a id="settings_domain_remove" data-role="button" data-icon="minus">Nix</a>
         </div>
-        <div id="settings_domain_exist_" class="ui-field-contain">
+        <div class="ui-field-contain settings_domain_exist">
+          <button id="settings_domain_remove" class="ui-btn ui-corner-all ui-icon-minus ui-btn-icon-left"></button>
+        </div>
+        <div class="ui-field-contain settings_domain_exist_">
           <p>Sie können diese App erst verwenden, wenn Sie sich bei einer bestehenden Domain mit einem Pseudonym angemeldet haben.</p>
         </div>
         

@@ -27,6 +27,11 @@ body {
 
 }
 
+.ui-grid-30-70 > .ui-block-a {width: 30% !important;}
+.ui-grid-30-70 > .ui-block-b {width: 70% !important;}
+.ui-grid-70-30 > .ui-block-a {width: 70% !important;}
+.ui-grid-70-30 > .ui-block-b {width: 30% !important;}
+
 /*#capture_img {}*/
 
 #list_table tr.green  {background-color: green}
@@ -35,3 +40,7 @@ body {
 
 #list_table tr td img {height: 80px}
 #list_table tr td:last-child img {height: 40px}
+
+
+img#foto_img {width: 100%}
+

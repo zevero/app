@@ -7,7 +7,7 @@
 function show_geo_info(pos){
   var msg = 'NO GPS';
   if (pos) msg = Math.round(pos.coords.accuracy) + ' m';
-  $('#status_gps').text(msg);
+  $('.status_gps').text(msg);
 }
 
 function foto_take(){
@@ -32,7 +32,7 @@ function foto_take(){
         },
         function(e){console.log('geo_foto_error',e);},
         show_geo_info,
-        {maxWait:30000, desiredAccuracyCountMin:5, enableLowAccuracy:true}
+        {maxWait:30000, desiredAccuracyCountMin:7, enableLowAccuracy:true}
       );
     });
 }
@@ -46,7 +46,7 @@ function foto_edit(){
     var field = info.fields[key];
     var $el = $fields.find('#field_key_'+key);
     var value = $el.val().trim();
-    if (field.attr.required && value==='') {
+    if (field.attr && field.attr.required && value==='') {
       $el.shake();
       complete = false;
     }
@@ -59,6 +59,12 @@ function foto_edit(){
   if (complete) return $.mobile.navigate('#home');
 }
 
+function foto_del(){
+  var foto_id = $('#foto_img').data('id'); //id stored on foto
+  app.lib.store.update({deleted: true},foto_id);
+  return $.mobile.navigate('#home');
+}
+
 function clear(){
   $('#foto_img').attr('src', '');
   $('#foto_fields').empty();
@@ -66,6 +72,7 @@ function clear(){
 }
 
 function show(n_or_id){
+  $('#foto_map').hide();
   clear();
   var id = app.lib.store.toId(n_or_id);
   var params = app.lib.store.get(id);
@@ -77,7 +84,7 @@ function show(n_or_id){
     var field = info.fields[key];
     var field_key = 'field_key_'+key;
     var $el = $('<'+field.el+'>', field.attr).attr('id', field_key);
-    var $label = $('<label>'+field.label+'</label>',{for: field_key});
+    var $label = $('<label>'+field.label+'</label>',{'for': field_key});
     $el.attr({autocomplete:'off', autocorrect:'off', autocapitalize:'off',spellcheck:'false'}); 
     if (field.el === 'select' && typeof field.options ==='object') { //el is select
       Object.keys(field.options).forEach(function(option_key){
@@ -86,9 +93,11 @@ function show(n_or_id){
     } else { //el is normal
       $el.attr('value', value);
     }
-    
-    $fields.append($label);
-    $fields.append($el);
+    $fields.append(
+      $('<div>',{'class':'ui-field-contain'})
+        .append($label)
+        .append($el)
+    );
   });
   $.mobile.navigate('#foto', { transition: 'slide'});
 }
@@ -99,10 +108,10 @@ function getFieldsInfo(params){
   info.fields && Object.keys(info.fields).forEach(function(key){
     var field = info.fields[key];
     var value = (params.values && params.values[key]) || null;
-    if (field.attr.type==='select' && field.options){
-      value = field.option[field] || null;
+    if (field.el==='select' && field.options){
+      value = field.options[value] || null;
     }
-    if (!field.peek && !value) return;
+    if (!field.peek || !value) return;
     html += value + '<br>';
   });
   return html;
@@ -110,8 +119,9 @@ function getFieldsInfo(params){
 
 app.foto = {
   initGeo: function(ms_wait){
-    if (!ms_wait) ms_wait = 100000;
+    if (isNaN(ms_wait)) ms_wait = 100000;
     show_geo_info();
+    console.log('app.foto.initGeo_ms',ms_wait);
     navigator.geolocation.getAccurateCurrentPosition(
       function(e){console.log('app.foto.initGeo_ms',ms_wait,'ok',e);},
       function(e){console.log('app.foto.initGeo_ms',ms_wait,'nok',e);},
@@ -123,8 +133,9 @@ app.foto = {
     console.log('app_foto_init');
     setTimeout(app.foto.initGeo,500); //navigator.geolocation is OVERWRITTEN on startup. So we load and use it with timeout
     //app.map.init();
-    $('#button_foto').click(foto_take);
+    $('.button_foto').click(foto_take);
     $('#foto_edit').click(foto_edit);
+    $('#foto_del').click(foto_del);
     $('#foto_fields').on('change keyup',function(){$('#foto_edit').prop('disabled', false);});
   },
   clear: clear,

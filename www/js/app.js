@@ -1,9 +1,9 @@
 'use strict';
 var app = {
   config: {
-    //server: 'http://beweisfoto.info'
+    server: 'http://beweisfoto.info'
     //server: 'http://beweisfoto.puschkarski.org:'
-    server: 'http://checkbild.info:5000'
+    //server: 'http://checkbild.info:5000'
   },
   lib: {},
   // Application Constructor

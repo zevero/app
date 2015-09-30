@@ -29,9 +29,14 @@ function eventShowFoto(e){
 
 app.list = {
   init: function() {
+    $('#list_map').hide();
     console.log('app_list_init');
     $('#list_table tbody').on('click','tr', eventShowFoto);
     $('#list_table tbody').on('sendState','tr', eventSendState);
+    app.list.redraw();
+  },
+  redraw: function(){
+    $('#list_table tbody').empty();
     var fotos = app.lib.store.getAll();
     $('#list_table_exist_').toggle(!fotos.length);
     fotos.forEach(app.list.add);
@@ -41,12 +46,18 @@ app.list = {
   },
   add: function(next) {
     console.log('app_list_add');
+    if (next.params && next.params.deleted) return;
     $('#list_table tbody').prepend($tr(next));
     sendState('ok',next.n);
   },
   update: function(next) {
     console.log('app_list_update');
-    $('#list_table tbody tr[data-n="'+next.n+'"]').replaceWith($tr(next));
+    var tr = $('#list_table tbody tr[data-n="'+next.n+'"]');
+    if (next.params && next.params.deleted) {
+      tr.remove();
+      return;
+    }
+    tr.replaceWith($tr(next));
     sendState('update',next.n);
   },
   sendState: sendState

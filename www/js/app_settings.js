@@ -65,14 +65,14 @@ app.settings = {
         domain = dom;
         app.lib.store.domain.set(domain);
       }
-      var $option = $('<option value="'+dom+'">' + dom + ' (' + domains[dom] + ')</option>' );
+      var $option = $('<option value="'+dom+'">' + domains[dom]+'@'+dom + '</option>' );
       if (dom ===domain) $option.prop('selected',true);
       $select.append($option);
     });
     $select.selectmenu('refresh', true);
-    $('#settings_domain_remove').html('Domain' + domain + ' löschen!');
-    $('#settings_domain_exist').toggle(!!domain);
-    $('#settings_domain_exist_').toggle(!domain);
+    $('#settings_domain_remove').html('Domain ' + domain + ' löschen!');
+    $('.settings_domain_exist').toggle(!!domain);
+    $('.settings_domain_exist_').toggle(!domain);
     $('#settings_back').toggle(!!domain);
     if (!domain)  $.mobile.navigate('#settings'); //go to settings page if we dont have a domain
 
@@ -82,6 +82,7 @@ app.settings = {
     $('#settings_domain_select').selectmenu().change(function(){
       app.lib.store.domain.set($(this).val());
       app.settings.display();
+      app.list.redraw();
       //setTimeout(function(){$.mobile.navigate('#home');},500);
     });
     $('#domain').keyup(function(){

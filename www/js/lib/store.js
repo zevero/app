@@ -72,7 +72,7 @@ var o = app.lib.store = {
     ls.set(domain,n);
     var id = domain + '#' + n;
     ls.set(id,params);
-    app.list.add({params:params,id:id}); //need to change from ok to nok
+    app.list.add({params:params,id:id,n:n}); //need to change from ok to nok
     app.list.sendState('nok',n);
     o.outbox.add(id);  
     return id;
