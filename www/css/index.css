@@ -44,3 +44,12 @@ body {
 
 img#foto_img {width: 100%}
 
+#foto_saved {
+  position:fixed;
+  background-color:greenyellow;
+  color:darkgreen;
+  border:1px solid darkgreen;
+  left:50%;
+  top:42px;
+  transform: translateX(-50%);
+}

@@ -20,7 +20,7 @@ gulp.task('useref', function() {
     //.pipe(debug({title: 'useref_in:'}))
     .pipe(assets)
     //.pipe(debug({title: 'useref_assets:'}))
-    .pipe(gulpif('*.js', uglify()))
+    //.pipe(gulpif('*.js', uglify()))
     .pipe(gulpif('*.css', minifyCss()))
     .pipe(assets.restore())
     .pipe(useref())

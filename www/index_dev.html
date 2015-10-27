@@ -21,6 +21,7 @@
     <script src="js/bower_components/jquery/dist/jquery.min.js" type="text/javascript"></script>
     <script src="js/vendor/jquery.mobile-1.4.5.min.js" type="text/javascript"></script>
     <script src="js/vendor/jquery.shake.js" type="text/javascript"></script>
+    <script src="js/vendor/jquery.hideKeyboard.js" type="text/javascript"></script>
     <script src="js/vendor/fastclick.min.js" type="text/javascript"></script>
     <!-- endbuild -->
      <!--<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAYHNuX165LNtineirwnAkX9Lu0Sqy84KU&sensor=false"></script>-->
@@ -50,19 +51,16 @@
       </div>
       <div data-role="main" class="ui-content">
         <div id="foto_map">Map</div>
-        <form>
+        <form id="foto_fields_form">
           <div id="foto_fields"></div>
         </form>
-
+        <img id="foto_img"/>
         <div class="ui-grid-a ui-grid-30-70">
           <div class="ui-block-a"><button id="foto_del" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-top">Löschen</button></div>
-          <div class="ui-block-b"><button id="foto_edit" class="ui-btn ui-corner-all ui-icon-edit ui-btn-icon-top">Zurück</button></div>
+          <div class="ui-block-b"><button id="foto_edit" class="ui-btn ui-corner-all ui-icon-home ui-btn-icon-top"  data-transition="slide">Zurück</button></div>
         </div>
-
-        <img id="foto_img"/>
       </div>
     </div>
-      
       
     <div data-role="page" id="settings">
       <div data-role="header" data-position="fixed">
@@ -97,7 +95,8 @@
         
       </div>
     </div>
-
+   
+    <div id="foto_saved">Gespeichert!</div>
     <script type="text/javascript" src="cordova.js"></script>
     <script src="js/app.js" type="text/javascript"></script>
     <!--<script src="js/app_map.js" type="text/javascript"></script>-->

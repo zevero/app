@@ -37,7 +37,8 @@ function foto_take(){
     });
 }
 
-function foto_edit(){                 
+function foto_save(){
+  
   var info = app.lib.store.domain.getInfo();
   var values = {};
   var $fields = $('#foto_fields');
@@ -56,23 +57,30 @@ function foto_edit(){
   
   var foto_id = $('#foto_img').data('id'); //id stored on foto
   app.lib.store.update({values: values, complete:complete}, foto_id);
-  if (complete) return $.mobile.navigate('#home');
+  foto_saved();
+  //if (complete) return $.mobile.navigate('#home');
+}
+function foto_saved(){
+   $('#foto_saved').stop().slideToggle().delay(500).slideToggle();
 }
 
 function foto_del(){
   var foto_id = $('#foto_img').data('id'); //id stored on foto
+  clear();
   app.lib.store.update({deleted: true},foto_id);
-  return $.mobile.navigate('#home');
+  return nav_list();
+}
+function nav_list(){
+  //$.mobile.navigate('#home',{ transition : 'slide', reverse: true});   //reverse does not work!
+  $.mobile.changePage('#home', { transition: 'slide', reverse: true });//deprecated but good for now
 }
 
 function clear(){
-  $('#foto_img').attr('src', '');
+  $('#foto_img').removeAttr('src');
   $('#foto_fields').empty();
-  $('#foto_edit').prop('disabled', true);
 }
 
 function show(n_or_id){
-  $('#foto_map').hide();
   clear();
   var id = app.lib.store.toId(n_or_id);
   var params = app.lib.store.get(id);
@@ -131,12 +139,18 @@ app.foto = {
   },
   init: function() {
     console.log('app_foto_init');
+    $('#foto_map').hide();
+    $('#foto_saved').hide();
     setTimeout(app.foto.initGeo,500); //navigator.geolocation is OVERWRITTEN on startup. So we load and use it with timeout
     //app.map.init();
     $('.button_foto').click(foto_take);
-    $('#foto_edit').click(foto_edit);
+    $('#foto_edit').click(nav_list);
     $('#foto_del').click(foto_del);
-    $('#foto_fields').on('change keyup',function(){$('#foto_edit').prop('disabled', false);});
+    $('#foto_fields').on('change',foto_save);
+    $('#foto_fields_form').submit(function(e){
+      e.preventDefault();
+      $('#foto_fields_form input').hideKeyboard();
+    });
   },
   clear: clear,
   show: show,

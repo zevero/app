@@ -88,7 +88,7 @@ var o = app.lib.store = {
     $.extend(params,params_);
     ls.set(id,params);
     app.list.update({params:params,id:id,n:o.toN(id)}); //always state refresh
-    o.outbox.add(id);  
+    o.outbox.add(id);
   },
   updated: function(n){
     app.list.sendState('ok',n);
